@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Joysola.DeepZoom", "Joysola.DeepZoom\Joysola.DeepZoom.csproj", "{04DEC79C-E76A-451D-BD20-540782B216AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepZoom", "DeepZoom\DeepZoom.csproj", "{3B68BEDB-6A68-463C-A9FB-DD2892B58507}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04DEC79C-E76A-451D-BD20-540782B216AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DEC79C-E76A-451D-BD20-540782B216AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DEC79C-E76A-451D-BD20-540782B216AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DEC79C-E76A-451D-BD20-540782B216AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B68BEDB-6A68-463C-A9FB-DD2892B58507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B68BEDB-6A68-463C-A9FB-DD2892B58507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B68BEDB-6A68-463C-A9FB-DD2892B58507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B68BEDB-6A68-463C-A9FB-DD2892B58507}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88BFC54E-E3A8-4B09-8B86-52E3AC7576C8}
+	EndGlobalSection
+EndGlobal
