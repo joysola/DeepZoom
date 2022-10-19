@@ -13,10 +13,7 @@ namespace System.Windows.Controls
     {
         public interface ISpatialItemsSource
         {
-            Rect Extent
-            {
-                get;
-            }
+            Rect Extent { get; }
 
             event EventHandler ExtentChanged;
 
@@ -29,17 +26,9 @@ namespace System.Windows.Controls
         {
             private class SpatialItem
             {
-                public int Index
-                {
-                    get;
-                    set;
-                }
+                public int Index { get; set; }
 
-                public Rect Bounds
-                {
-                    get;
-                    set;
-                }
+                public Rect Bounds { get; set; }
 
                 public SpatialItem()
                 {

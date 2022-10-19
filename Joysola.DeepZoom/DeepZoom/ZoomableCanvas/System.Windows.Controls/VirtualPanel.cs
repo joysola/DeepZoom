@@ -13,23 +13,11 @@ namespace System.Windows.Controls
     {
         private class VirtualItemsList : IList, ICollection, IEnumerable
         {
-            public IList Items
-            {
-                get;
-                set;
-            }
+            public IList Items { get; set; }
 
-            public int Offset
-            {
-                get;
-                set;
-            }
+            public int Offset { get; set; }
 
-            public int Count
-            {
-                get;
-                set;
-            }
+            public int Count { get; set; }
 
             public object this[int index]
             {
@@ -158,11 +146,7 @@ namespace System.Windows.Controls
             }
         }
 
-        private DispatcherOperation RealizeOperation
-        {
-            get;
-            set;
-        }
+        private DispatcherOperation RealizeOperation { get; set; }
 
         public ItemsControl ItemsOwner => ItemsControl.GetItemsOwner(this);
 

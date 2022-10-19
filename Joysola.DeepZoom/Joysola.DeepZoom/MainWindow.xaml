@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Joysola.DeepZoom"
         xmlns:dz="clr-namespace:DeepZoom.Controls;assembly=DeepZoom"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280">
+        Title="MainWindow" Height="1000" Width="1800">
     <Grid>
         <dz:MultiScaleImage>
             <dz:MultiScaleImage.Source>
