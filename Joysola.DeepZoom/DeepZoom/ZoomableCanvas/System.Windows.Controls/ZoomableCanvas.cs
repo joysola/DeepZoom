@@ -81,10 +81,7 @@ namespace System.Windows.Controls
                         _tree.Remove(spatialItem, bounds);
                         _tree.Insert(spatialItem, value, value.IsEmpty ? double.PositiveInfinity : (value.Width + value.Height));
                         spatialItem.Bounds = value;
-                        if (this.ExtentChanged != null)
-                        {
-                            this.ExtentChanged(this, EventArgs.Empty);
-                        }
+                        this.ExtentChanged?.Invoke(this, EventArgs.Empty);
                         if (this.QueryInvalidated != null && (bounds.IntersectsWith(_lastQuery) || value.IntersectsWith(_lastQuery)))
                         {
                             this.QueryInvalidated(this, EventArgs.Empty);
@@ -114,10 +111,7 @@ namespace System.Windows.Controls
                     _tree.Insert(array[i], Rect.Empty, double.PositiveInfinity);
                 }
                 _items.InsertRange(index, array);
-                if (this.QueryInvalidated != null)
-                {
-                    this.QueryInvalidated(this, EventArgs.Empty);
-                }
+                this.QueryInvalidated?.Invoke(this, EventArgs.Empty);
             }
 
             public void RemoveRange(int index, int count)
@@ -135,14 +129,8 @@ namespace System.Windows.Controls
                 }
                 _items.RemoveRange(index, count);
                 _extent = Rect.Empty;
-                if (this.ExtentChanged != null)
-                {
-                    this.ExtentChanged(this, EventArgs.Empty);
-                }
-                if (this.QueryInvalidated != null)
-                {
-                    this.QueryInvalidated(this, EventArgs.Empty);
-                }
+                this.ExtentChanged?.Invoke(this, EventArgs.Empty);
+                this.QueryInvalidated?.Invoke(this, EventArgs.Empty);
             }
 
             public void Reset(int count)
@@ -150,14 +138,8 @@ namespace System.Windows.Controls
                 _extent = Rect.Empty;
                 _items.Clear();
                 InsertRange(0, count);
-                if (this.ExtentChanged != null)
-                {
-                    this.ExtentChanged(this, EventArgs.Empty);
-                }
-                if (this.QueryInvalidated != null)
-                {
-                    this.QueryInvalidated(this, EventArgs.Empty);
-                }
+                this.ExtentChanged?.Invoke(this, EventArgs.Empty);
+                this.QueryInvalidated?.Invoke(this, EventArgs.Empty);
             }
 
             public void Optimize()
@@ -167,10 +149,7 @@ namespace System.Windows.Controls
                 if (extent.Top - extent2.Top > extent.Height || extent.Left - extent2.Left > extent.Width || extent2.Right - extent.Right > extent.Width || extent2.Bottom - extent.Bottom > extent.Height)
                 {
                     _tree.Extent = extent2;
-                    if (this.QueryInvalidated != null)
-                    {
-                        this.QueryInvalidated(this, EventArgs.Empty);
-                    }
+                    this.QueryInvalidated?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -367,23 +346,11 @@ namespace System.Windows.Controls
             }
         }
 
-        ScrollViewer IScrollInfo.ScrollOwner
-        {
-            get;
-            set;
-        }
+        ScrollViewer IScrollInfo.ScrollOwner { get; set; }
 
-        bool IScrollInfo.CanHorizontallyScroll
-        {
-            get;
-            set;
-        }
+        bool IScrollInfo.CanHorizontallyScroll { get; set; }
 
-        bool IScrollInfo.CanVerticallyScroll
-        {
-            get;
-            set;
-        }
+        bool IScrollInfo.CanVerticallyScroll { get; set; }
 
         double IScrollInfo.ViewportHeight => ActualViewbox.Height * Scale;
 
@@ -565,10 +532,7 @@ namespace System.Windows.Controls
                         }
                     }
                 }
-
             }
-            //ZoomableCanvas zoomableCanvas = d as ZoomableCanvas;
-            //if (zoomableCanvas != null)
             return num;
         }
 
@@ -605,15 +569,6 @@ namespace System.Windows.Controls
 
         static ZoomableCanvas()
         {
-            //ApplyTransformProperty = DependencyProperty.Register("ApplyTransform", typeof(bool), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsArrange, OnApplyTransformChanged));
-            //ActualViewboxProperty = DependencyProperty.RegisterReadOnly("ActualViewbox", typeof(Rect), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(Rect.Empty, OnActualViewboxChanged, CoerceActualViewbox)).DependencyProperty;
-            //ViewboxProperty = DependencyProperty.Register("Viewbox", typeof(Rect), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(Rect.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewboxChanged), IsViewboxValid);
-            //StretchProperty = DependencyProperty.Register("Stretch", typeof(Stretch), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(Stretch.Uniform, OnStretchChanged), IsStretchValid);
-            //StretchDirectionProperty = DependencyProperty.Register("StretchDirection", typeof(StretchDirection), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(StretchDirection.Both, OnStretchDirectionChanged), IsStretchDirectionValid);
-            //OffsetProperty = DependencyProperty.Register("Offset", typeof(Point), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(new Point(0.0, 0.0), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnOffsetChanged, CoerceOffset), IsOffsetValid);
-            //ScaleProperty = 
-            //RealizationLimitProperty = DependencyProperty.Register("RealizationLimit", typeof(int), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(int.MaxValue, OnRealizationLimitChanged), IsRealizationLimitValid);
-            //RealizationRateProperty = DependencyProperty.Register("RealizationRate", typeof(int), typeof(ZoomableCanvas), new FrameworkPropertyMetadata(int.MaxValue, OnRealizationRateChanged), IsRealizationRateValid);
             UIElement.RenderTransformProperty.OverrideMetadata(typeof(ZoomableCanvas), new FrameworkPropertyMetadata(null, CoerceRenderTransform));
             try
             {
@@ -675,15 +630,14 @@ namespace System.Windows.Controls
             {
                 PrivateIndex.InsertRange(index, items.Count);
             }
-            if (RealizedItems == null)
+            if (RealizedItems != null)
             {
-                return;
-            }
-            for (LinkedListNode<int> linkedListNode = RealizedItems.First; linkedListNode != null; linkedListNode = linkedListNode.Next)
-            {
-                if (linkedListNode.Value >= index)
+                for (LinkedListNode<int> linkedListNode = RealizedItems.First; linkedListNode != null; linkedListNode = linkedListNode.Next)
                 {
-                    linkedListNode.Value += items.Count;
+                    if (linkedListNode.Value >= index)
+                    {
+                        linkedListNode.Value += items.Count;
+                    }
                 }
             }
         }
@@ -715,6 +669,25 @@ namespace System.Windows.Controls
                 }
                 linkedListNode = next;
             }
+            //if (this.RealizedItems != null)
+            //{
+            //    LinkedListNode<int> next;
+            //    for (LinkedListNode<int> linkedListNode = this.RealizedItems.First; linkedListNode != null; linkedListNode = next)
+            //    {
+            //        next = linkedListNode.Next;
+            //        if (linkedListNode.Value >= index)
+            //        {
+            //            if (linkedListNode.Value < index + items.Count)
+            //            {
+            //                this.RealizedItems.Remove(linkedListNode);
+            //            }
+            //            else
+            //            {
+            //                linkedListNode.Value -= items.Count;
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         public void OnItemsReset()
@@ -744,32 +717,6 @@ namespace System.Windows.Controls
             InvalidateExtent();
         }
 
-        public void OnItemsReset2()
-        {
-            if (SpatialIndex != null)
-            {
-                SpatialIndex.ExtentChanged -= OnSpatialExtentChanged;
-                SpatialIndex.QueryInvalidated -= OnSpatialQueryInvalidated;
-            }
-            RealizedItems = null;
-            SpatialIndex = null;
-            PrivateIndex = null;
-            if (base.IsVirtualizing && base.IsItemsHost && base.ItemsOwner != null)
-            {
-                RealizedItems = new LinkedList<int>();
-                SpatialIndex = (base.ItemsOwner.ItemsSource as ISpatialItemsSource);
-                if (SpatialIndex == null)
-                {
-                    PrivateIndex = new PrivateSpatialIndex();
-                    PrivateIndex.Reset((base.ItemsOwner.Items != null) ? base.ItemsOwner.Items.Count : 0);
-                    SpatialIndex = PrivateIndex;
-                }
-                SpatialIndex.ExtentChanged += OnSpatialExtentChanged;
-                SpatialIndex.QueryInvalidated += OnSpatialQueryInvalidated;
-            }
-            InvalidateReality();
-            InvalidateExtent();
-        }
 
         private void OnSpatialQueryInvalidated(object sender, EventArgs e)
         {
@@ -798,7 +745,7 @@ namespace System.Windows.Controls
         /// ºËÐÄ
         /// </summary>
         /// <returns></returns>
-        public IEnumerator RealizeOverride()
+        private IEnumerator RealizeOverride()
         {
             if (SpatialIndex == null)
             {
@@ -879,8 +826,7 @@ namespace System.Windows.Controls
         private static void OnPositioningChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DependencyObject parent = VisualTreeHelper.GetParent(d);
-            ZoomableCanvas zoomableCanvas = parent as ZoomableCanvas;
-            if (zoomableCanvas != null)
+            if (parent is ZoomableCanvas zoomableCanvas)
             {
                 zoomableCanvas.InvalidateArrange();
             }
@@ -915,8 +861,8 @@ namespace System.Windows.Controls
             TranslateTransform appliedTranslateTransform = AppliedTranslateTransform;
             if (appliedTranslateTransform != null)
             {
-                appliedTranslateTransform.X = 0.0 - offset.X;
-                appliedTranslateTransform.Y = 0.0 - offset.Y;
+                appliedTranslateTransform.X = -offset.X;
+                appliedTranslateTransform.Y = -offset.Y;
             }
             else
             {
@@ -940,7 +886,7 @@ namespace System.Windows.Controls
                     }
                 }
             }
-            return default(Size);
+            return default;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
