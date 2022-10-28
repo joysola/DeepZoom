@@ -124,21 +124,6 @@ namespace DeepZoom
                 {
                     // Capture closure
                     var token = _currentCancellationTokenSource.Token;
-                    //Task.Factory
-                    //    .StartNew(() =>
-                    //    {
-                    //        var source = ImageLoader.LoadImage(uri);
-                    //        if (source != null)
-                    //            source = CacheTile(tileId, source);
-                    //        return source;
-                    //    }, token, TaskCreationOptions.None, TaskScheduler.Default)
-                    //    .ContinueWith(t =>
-                    //    {
-                    //        if (t.Result != null)
-                    //        {
-                    //            tileVm.Source = t.Result;
-                    //        }
-                    //    }, TaskContinuationOptions.OnlyOnRanToCompletion);
                     Task.Factory
                         .StartNew(() =>
                         {
@@ -149,10 +134,9 @@ namespace DeepZoom
                         }, token, TaskCreationOptions.None, TaskScheduler.Default)
                         .ContinueWith(t =>
                         {
-                            var bs = t.GetAwaiter().GetResult();
-                            if (bs != null)
+                            if (t.Result != null)
                             {
-                                tileVm.Source = bs;
+                                tileVm.Source = t.Result;
                             }
                         }, TaskContinuationOptions.OnlyOnRanToCompletion);
                 }
