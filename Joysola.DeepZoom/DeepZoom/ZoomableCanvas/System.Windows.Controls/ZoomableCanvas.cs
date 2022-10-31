@@ -188,6 +188,8 @@ namespace System.Windows.Controls
         public static readonly DependencyProperty RealizationRateProperty = DependencyProperty.Register(nameof(RealizationRate), typeof(int), typeof(ZoomableCanvas),
             new FrameworkPropertyMetadata(int.MaxValue, OnRealizationRateChanged), IsRealizationRateValid);
 
+        public static readonly RoutedEvent ZoomableChangedEvent = EventManager.RegisterRoutedEvent(nameof(ZoomableChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ZoomableCanvas));
+
 
         private ISpatialItemsSource SpatialIndex;
 
@@ -366,6 +368,15 @@ namespace System.Windows.Controls
 
         public static event DependencyPropertyChangedEventHandler Refresh;
 
+
+
+        public event RoutedEventHandler ZoomableChanged
+        {
+            add => AddHandler(ZoomableCanvas.ZoomableChangedEvent, value);
+            remove => RemoveHandler(ZoomableCanvas.ZoomableChangedEvent, value);
+        }
+
+
         private static object CoerceRenderTransform(DependencyObject d, object value)
         {
             ZoomableCanvas zoomableCanvas = d as ZoomableCanvas;
@@ -491,7 +502,8 @@ namespace System.Windows.Controls
             if (d is ZoomableCanvas zoomableCanvas)
             {
                 zoomableCanvas.OffsetOverride((Point)e.NewValue);// 先进行Transform变化，再进行真缩放InvalidateReality
-                ZoomableCanvas.Refresh?.Invoke(d, e);
+                //ZoomableCanvas.Refresh?.Invoke(d, e);
+                zoomableCanvas.RaiseEvent(new RoutedEventArgs(ZoomableCanvas.ZoomableChangedEvent, zoomableCanvas));
                 d.CoerceValue(ActualViewboxProperty);
             }
         }
@@ -541,7 +553,8 @@ namespace System.Windows.Controls
             if (d is ZoomableCanvas zoomableCanvas)
             {
                 zoomableCanvas.ScaleOverride((double)e.NewValue); // 先进行Transform变化，再进行真缩放
-                ZoomableCanvas.Refresh?.Invoke(d, e);
+                //ZoomableCanvas.Refresh?.Invoke(d, e);
+                zoomableCanvas.RaiseEvent(new RoutedEventArgs(ZoomableCanvas.ZoomableChangedEvent, zoomableCanvas));
                 d.CoerceValue(ActualViewboxProperty);
                 d.CoerceValue(OffsetProperty);
             }
