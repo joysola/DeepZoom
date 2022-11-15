@@ -5,14 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Joysola.DeepZoom"
         xmlns:dz="clr-namespace:DeepZoom.Controls;assembly=DeepZoom"
+        xmlns:mark="clr-namespace:DeepZoom.Marks.Controls;assembly=DeepZoom.Marks"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1800">
+        Title="MainWindow"
+        Height="1000"
+        Width="1800">
     <Grid>
         <dz:MultiScaleImage>
             <dz:MultiScaleImage.Source>
-                <local:TestTileSource/>
+                <local:TestTileSource />
             </dz:MultiScaleImage.Source>
         </dz:MultiScaleImage>
+        <Canvas>
+            <mark:ShapeMark Style="{StaticResource RectangleMarkStyle}"
+                            Width="30"
+                            Height="30"
+                            BorderBrush="Red"
+                            BorderThickness="1"
+                            CornerWidth="5" />
+            <!--<mark:RectangleMark.MarkTemplate>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Rectangle Margin="0"
+                                   x:Name="PART_Rectangle"
+                                   Fill="{TemplateBinding Background}"
+                                   SnapsToDevicePixels="True"
+                                   Stroke="{TemplateBinding BorderBrush}"
+                                   Stretch="Fill"
+                                   StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Mode=OneWay}" />
+                    </ControlTemplate>
+                </mark:RectangleMark.MarkTemplate>-->
+
+        </Canvas>
     </Grid>
 </Window>

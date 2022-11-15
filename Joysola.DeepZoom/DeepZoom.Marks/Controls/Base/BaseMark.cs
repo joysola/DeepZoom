@@ -5,11 +5,12 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Shapes;
 
 namespace DeepZoom.Marks.Controls
 {
     [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
-    public abstract class BaseMark : ContentControl
+    public class BaseMark : ContentControl
     {
         #region ctor
         static BaseMark()
@@ -19,7 +20,7 @@ namespace DeepZoom.Marks.Controls
         }
         public BaseMark()
         {
-            SetResourceReference(StyleProperty, typeof(BaseMark));
+            //SetResourceReference(StyleProperty, typeof(BaseMark));
         }
         #endregion ctor
 
@@ -60,6 +61,30 @@ namespace DeepZoom.Marks.Controls
             DependencyProperty.Register("CornerWidth", typeof(int), typeof(BaseMark), new PropertyMetadata(31));
         #endregion
 
+        #region MarkTemplate
+        public ControlTemplate MarkTemplate
+        {
+            get { return (ControlTemplate)GetValue(MarkTemplateProperty); }
+            set { SetValue(MarkTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MarkShape.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MarkTemplateProperty =
+            DependencyProperty.Register(nameof(MarkTemplate), typeof(ControlTemplate), typeof(BaseMark), new PropertyMetadata(null));
+        #endregion MarkTemplate
+
+
+        #region IsEditable
+        public bool IsEditable
+        {
+            get { return (bool)GetValue(IsEditableProperty); }
+            set { SetValue(IsEditableProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MarkShape.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsEditableProperty =
+            DependencyProperty.Register(nameof(IsEditable), typeof(bool), typeof(BaseMark), new PropertyMetadata(true));
+        #endregion IsEditable
 
         #region PART Object
 
@@ -71,7 +96,7 @@ namespace DeepZoom.Marks.Controls
         #endregion
 
         #region DragHelperParent
-        protected FrameworkElement DragHelperParent
+        protected FrameworkElement DragParent
         {
             get => Parent as FrameworkElement;
         }
@@ -92,8 +117,8 @@ namespace DeepZoom.Marks.Controls
             double TopNew = CorrectDoubleValue(TopOld + VerticalChange);
             double LeftNew = CorrectDoubleValue(LeftOld + HorizontalChange);
 
-            TopNew = CorrectNewTop(DragHelperParent, TopNew, TargetActualBound.Height);
-            LeftNew = CorrectNewLeft(DragHelperParent, LeftNew, TargetActualBound.Width);
+            TopNew = CorrectNewTop(DragParent, TopNew, TargetActualBound.Height);
+            LeftNew = CorrectNewLeft(DragParent, LeftNew, TargetActualBound.Width);
 
             Canvas.SetTop(this, TopNew);
             Canvas.SetLeft(this, LeftNew);
@@ -134,28 +159,28 @@ namespace DeepZoom.Marks.Controls
                 || HitedThumb.DragDirection == DragDirection.MiddleLeft
                 || HitedThumb.DragDirection == DragDirection.BottomLeft)
             {
-                ResizeFromLeft(DragHelperParent, LeftOld, WidthOld, HorizontalChange, out LeftNew, out WidthNew);
+                ResizeFromLeft(DragParent, LeftOld, WidthOld, HorizontalChange, out LeftNew, out WidthNew);
             }
 
             if (HitedThumb.DragDirection == DragDirection.TopLeft
                 || HitedThumb.DragDirection == DragDirection.TopCenter
                 || HitedThumb.DragDirection == DragDirection.TopRight)
             {
-                ResizeFromTop(DragHelperParent, TopOld, HeightOld, VerticalChange, out TopNew, out HeightNew);
+                ResizeFromTop(DragParent, TopOld, HeightOld, VerticalChange, out TopNew, out HeightNew);
             }
 
             if (HitedThumb.DragDirection == DragDirection.TopRight
                 || HitedThumb.DragDirection == DragDirection.MiddleRight
                 || HitedThumb.DragDirection == DragDirection.BottomRight)
             {
-                ResizeFromRight(DragHelperParent, LeftOld, WidthOld, HorizontalChange, out WidthNew);
+                ResizeFromRight(DragParent, LeftOld, WidthOld, HorizontalChange, out WidthNew);
             }
 
             if (HitedThumb.DragDirection == DragDirection.BottomLeft
                 || HitedThumb.DragDirection == DragDirection.BottomCenter
                 || HitedThumb.DragDirection == DragDirection.BottomRight)
             {
-                ResizeFromBottom(DragHelperParent, TopOld, HeightOld, VerticalChange, out HeightNew);
+                ResizeFromBottom(DragParent, TopOld, HeightOld, VerticalChange, out HeightNew);
             }
 
             this.Width = WidthNew;
@@ -281,11 +306,11 @@ namespace DeepZoom.Marks.Controls
 
         #endregion Resize Base Methods
 
-        protected abstract bool GetTargetIsEditable();
-        protected abstract Rect GetTargetActualBound();
-        protected abstract void SetTargetActualBound(Rect NewBound);
-        protected abstract void RaisenDragChangingEvent(Rect NewBound);
-        protected abstract void RaisenDragCompletedEvent(Rect NewBound);
+        protected virtual bool GetTargetIsEditable() => IsEditable;
+        protected virtual Rect GetTargetActualBound() => default;
+        protected virtual void SetTargetActualBound(Rect NewBound) { }
+        protected virtual void RaisenDragChangingEvent(Rect NewBound) { }
+        protected virtual void RaisenDragCompletedEvent(Rect NewBound) { }
 
         #endregion Drag & Resize
 
@@ -303,7 +328,7 @@ namespace DeepZoom.Marks.Controls
             AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(OnDragDelta));
             AddHandler(Thumb.DragCompletedEvent, new RoutedEventHandler(OnDragCompleted));
 
-            Visibility = Visibility.Collapsed;
+            //Visibility = Visibility.Collapsed;
         }
 
         #endregion OnApplyTemplate

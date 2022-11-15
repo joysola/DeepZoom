@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DeepZoom.Marks\DeepZoom.Marks.csproj" />
     <ProjectReference Include="..\DeepZoom\DeepZoom.csproj" />
   </ItemGroup>
 
