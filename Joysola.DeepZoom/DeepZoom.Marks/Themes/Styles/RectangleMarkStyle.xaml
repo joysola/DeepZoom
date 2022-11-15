@@ -7,7 +7,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="RectangleMarkStyle"
-           TargetType="local:ShapeMark"
+           TargetType="local:RectangleMark"
            BasedOn="{StaticResource BaseMarkStyle}">
         <Setter Property="MarkTemplate">
             <Setter.Value>

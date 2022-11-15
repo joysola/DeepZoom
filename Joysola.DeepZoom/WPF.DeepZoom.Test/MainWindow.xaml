@@ -1,9 +1,9 @@
-﻿<Window x:Class="Joysola.DeepZoom.MainWindow"
+﻿<Window x:Class="WPF.DeepZoom.Test.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Joysola.DeepZoom"
+        xmlns:local="clr-namespace:WPF.DeepZoom.Test"
         xmlns:mark="clr-namespace:DeepZoom.Marks.Controls;assembly=DeepZoom.Marks"
         xmlns:dz="clr-namespace:DeepZoom.Controls;assembly=DeepZoom"
         WindowStartupLocation="CenterScreen"
@@ -12,34 +12,18 @@
         Height="1000"
         Width="1800">
     <Grid>
-        <dz:MultiScaleImage>
+        <dz:MultiScaleImage >
             <dz:MultiScaleImage.Source>
                 <local:TestTileSource />
             </dz:MultiScaleImage.Source>
         </dz:MultiScaleImage>
-
-        <!--Width="{Binding ElementName=MSI,Path=ActualWidth}"
-                Height="{Binding ElementName=MSI,Path=ActualHeight}"-->
-        <Canvas x:Name="can">
+        <Canvas>
             <mark:RectangleMark Style="{StaticResource RectangleMarkStyle}"
-                                
                                 Width="30"
                                 Height="30"
                                 BorderBrush="Red"
                                 BorderThickness="1"
                                 CornerWidth="5" />
-            <!--<mark:RectangleMark.MarkTemplate>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Rectangle Margin="0"
-                                   x:Name="PART_Rectangle"
-                                   Fill="{TemplateBinding Background}"
-                                   SnapsToDevicePixels="True"
-                                   Stroke="{TemplateBinding BorderBrush}"
-                                   Stretch="Fill"
-                                   StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Mode=OneWay}" />
-                    </ControlTemplate>
-                </mark:RectangleMark.MarkTemplate>-->
-
         </Canvas>
     </Grid>
 </Window>

@@ -26,28 +26,6 @@ namespace DeepZoom.Marks.Controls
 
         #region Propertes
 
-        #region Offset
-        public Point Offset
-        {
-            get => (Point)GetValue(OffsetProperty);
-            set => SetValue(OffsetProperty, value);
-        }
-
-        public static readonly DependencyProperty OffsetProperty = DependencyProperty.Register(nameof(Offset), typeof(Point), typeof(BaseMark),
-           new FrameworkPropertyMetadata(new Point(0.0, 0.0), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnOffsetChanged));
-        #endregion Offset
-
-        #region Scale
-        public double Scale
-        {
-            get
-                => (double)GetValue(ScaleProperty);
-            set => SetValue(ScaleProperty, value);
-        }
-
-        public static readonly DependencyProperty ScaleProperty = DependencyProperty.Register(nameof(Scale), typeof(double), typeof(BaseMark),
-            new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnScaleChanged));
-        #endregion Scale
 
         #region CornerWidth
         public int CornerWidth
@@ -456,14 +434,7 @@ namespace DeepZoom.Marks.Controls
         #endregion Drag Event Handler
 
 
-        private static void OnScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
 
-        }
-        private static void OnOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
 
 
     }
