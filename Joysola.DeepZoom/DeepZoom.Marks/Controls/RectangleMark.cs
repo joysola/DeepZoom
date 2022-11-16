@@ -12,14 +12,13 @@ namespace DeepZoom.Marks.Controls
         protected override void SetTargetActualBound(Rect NewBound)
         {
             base.SetTargetActualBound(NewBound);
-            MSIStartPoint = NewBound.TopLeft.CanvasToMsi(Offset, Scale);
-            MSIEndPoint = NewBound.BottomRight.CanvasToMsi(Offset, Scale);
+            //MSIStartPoint = NewBound.TopLeft.CanvasToMsi(Offset, Scale);
+            //MSIEndPoint = NewBound.BottomRight.CanvasToMsi(Offset, Scale);
         }
 
 
         public override void UpdateShape()
         {
-            var xx = Canvas.GetLeft(this);
             base.UpdateShape();
             var startPoint = this.MsiToCanvas(this.MSIStartPoint);
             var endPoint = this.MsiToCanvas(this.MSIEndPoint);
@@ -28,7 +27,7 @@ namespace DeepZoom.Marks.Controls
             var width = Math.Abs(startPoint.X - endPoint.X);
             var height = Math.Abs(startPoint.Y - endPoint.Y);
             SetTargetActualBound(new Rect { X = x, Y = y, Width = width, Height = height });
-            UpdateLayout();
+            //UpdateLayout();
         }
     }
 }

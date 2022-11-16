@@ -22,12 +22,11 @@
                 Height="{Binding ElementName=MSI,Path=ActualHeight}"-->
         <Canvas x:Name="can">
             <mark:RectangleMark Style="{StaticResource RectangleMarkStyle}"
-                                
                                 Width="30"
                                 Height="30"
                                 BorderBrush="Red"
                                 BorderThickness="1"
-                                CornerWidth="5" />
+                                CornerWidth="10" />
             <!--<mark:RectangleMark.MarkTemplate>
                     <ControlTemplate TargetType="{x:Type Thumb}">
                         <Rectangle Margin="0"

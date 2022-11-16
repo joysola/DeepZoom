@@ -9,9 +9,13 @@ using System.Windows.Shapes;
 
 namespace DeepZoom.Marks.Controls
 {
-    [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
+    [TemplatePart(Name = PartMainCustomThumb, Type = typeof(CustomThumb))]
+    [TemplatePart(Name = PartMainGrid, Type = typeof(Grid))]
     public class BaseMark : ContentControl
     {
+        private const string PartMainCustomThumb = "PART_MainCustomThumb";
+        private const string PartMainGrid = "PART_MainGrid";
+
         #region ctor
         static BaseMark()
         {
@@ -70,6 +74,14 @@ namespace DeepZoom.Marks.Controls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         private Grid MainGrid;
         #endregion
+
+        #region MainThumb
+        /// <summary>
+        /// 核心CustomThumb，其template是拖拽的内容
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        protected CustomThumb MainThumb { get; private set; }
+        #endregion MainThumb
 
         #endregion
 
@@ -285,10 +297,50 @@ namespace DeepZoom.Marks.Controls
         #endregion Resize Base Methods
 
         protected virtual bool GetTargetIsEditable() => IsEditable;
-        protected virtual Rect GetTargetActualBound() => default;
-        protected virtual void SetTargetActualBound(Rect NewBound) { }
-        protected virtual void RaisenDragChangingEvent(Rect NewBound) { }
-        protected virtual void RaisenDragCompletedEvent(Rect NewBound) { }
+
+        #region Protected Method Bound and Drag
+        #region Get、SetTargetActualBound
+        protected virtual Rect GetTargetActualBound()
+        {
+            if (MainThumb == null)
+            {
+                return Rect.Empty;
+            }
+
+            double Top = CorrectDoubleValue(Canvas.GetTop(MainThumb));
+            double Left = CorrectDoubleValue(Canvas.GetLeft(MainThumb));
+
+            return new Rect
+            {
+                X = Left,
+                Y = Top,
+                Width = MainThumb.ActualWidth,
+                Height = MainThumb.ActualHeight
+            };
+        }
+        protected virtual void SetTargetActualBound(Rect NewBound)
+        {
+            if (MainThumb != null)
+            {
+                this.Width = NewBound.Width;
+                this.Height = NewBound.Height;
+                Canvas.SetTop(MainThumb, NewBound.Y);
+                Canvas.SetLeft(MainThumb, NewBound.X);
+            }
+        }
+
+        #endregion Get、SetTargetActualBound
+
+        #region DragEvents
+        protected virtual void RaisenDragChangingEvent(Rect NewBound)
+        {
+            RaiseEvent(new DragChangedEventArgs(DragChangingEvent, NewBound, MainThumb));
+        }
+        protected virtual void RaisenDragCompletedEvent(Rect NewBound) {
+            RaiseEvent(new DragChangedEventArgs(DragCompletedEvent, NewBound, MainThumb));
+        }
+        #endregion DragEvents
+        #endregion Protected Method Bound and Drag
 
         #endregion Drag & Resize
 
@@ -299,7 +351,8 @@ namespace DeepZoom.Marks.Controls
         {
             base.OnApplyTemplate();
 
-            MainGrid = GetPartFormTemplate<Grid>("PART_MainGrid");
+            MainGrid = GetPartFormTemplate<Grid>(PartMainGrid);
+            MainThumb = GetPartFormTemplate<CustomThumb>(PartMainCustomThumb);
 
             AddLogicalChild(MainGrid);
 

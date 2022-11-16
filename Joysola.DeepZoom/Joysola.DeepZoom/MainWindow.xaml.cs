@@ -24,17 +24,17 @@ namespace Joysola.DeepZoom
         public MainWindow()
         {
             InitializeComponent();
-            can.Loaded += (s, e) =>
-            {
-                var xx = can.Children[0] as RectangleMark;
-                xx.Loaded += (x, y) =>
-                {
-                    xx.MSIStartPoint = new Point(517, 342);
-                    xx.MSIEndPoint = new Point(837, 545);
-                    xx.UpdateShape();
-                };
-            };
-           
+            var xx = can.Children[0] as RectangleMark;
+            xx.MSIStartPoint = new Point(517, 342);
+            xx.MSIEndPoint = new Point(837, 545);
+            xx.UpdateShape();
+            //can.Loaded += (s, e) =>
+            //{
+            //    xx.Loaded += (x, y) =>
+            //    {
+            //    };
+            //};
+
         }
     }
 }
