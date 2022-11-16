@@ -15,7 +15,7 @@ namespace DeepZoom.Marks.Tools
         /// <param name="shapeMark"></param>
         /// <param name="canPiont"></param>
         /// <returns></returns>
-        public static Point CanvasToMsi(this ShapeMark shapeMark, Point canPiont, int slideZoom = 1)
+        public static Point CanvasToMsi(this DeepZoomMark shapeMark, Point canPiont, int slideZoom = 1)
         {
             Point offset = shapeMark.Offset;
             Point result = default(Point);
@@ -29,12 +29,24 @@ namespace DeepZoom.Marks.Tools
         /// <param name="annoBase"></param>
         /// <param name="msiPiont"></param>
         /// <returns></returns>
-        public static Point MsiToCanvas(this ShapeMark shapeMark, Point msiPiont, int slideZoom = 1)
+        public static Point MsiToCanvas(this DeepZoomMark shapeMark, Point msiPiont, int slideZoom = 1)
         {
             Point offset = shapeMark.Offset;
             Point result = default(Point);
             result.X = msiPiont.X * (shapeMark.Scale * slideZoom) - offset.X;
             result.Y = msiPiont.Y * (shapeMark.Scale * slideZoom) - offset.Y;
+            return result;
+        }
+
+        public static Rect MsiToCanvas(this DeepZoomMark shapeMark, Rect msiRect, int slideZoom = 1)
+        {
+            Point offset = shapeMark.Offset;
+            Rect result = default;
+
+            result.X = msiRect.X * (shapeMark.Scale * slideZoom) - offset.X;
+            result.Y = msiRect.Y * (shapeMark.Scale * slideZoom) - offset.Y;
+            result.Width = msiRect.Width * (shapeMark.Scale * slideZoom);
+            result.Height = msiRect.Height * (shapeMark.Scale * slideZoom);
             return result;
         }
         #endregion ShapeMark坐标转换扩展方法
@@ -53,6 +65,23 @@ namespace DeepZoom.Marks.Tools
             Point result = default;
             result.X = (canPiont.X + offset.X) / (scale * slideZoom);
             result.Y = (canPiont.Y + offset.Y) / (scale * slideZoom);
+            return result;
+        }
+        /// <summary>
+        /// Canvas坐标转Msi图像坐标
+        /// </summary>
+        /// <param name="canRect"></param>
+        /// <param name="offset"></param>
+        /// <param name="scale"></param>
+        /// <param name="slideZoom"></param>
+        /// <returns></returns>
+        public static Rect CanvasToMsi(this Rect canRect, Point offset, double scale, int slideZoom = 1)
+        {
+            Rect result = default;
+            result.X = (canRect.X + offset.X) / (scale * slideZoom);
+            result.Y = (canRect.Y + offset.Y) / (scale * slideZoom);
+            result.Width = canRect.Width / (scale * slideZoom);
+            result.Height = canRect.Height / (scale * slideZoom);
             return result;
         }
         /// <summary>

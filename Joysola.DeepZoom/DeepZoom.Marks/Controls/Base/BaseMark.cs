@@ -307,15 +307,15 @@ namespace DeepZoom.Marks.Controls
                 return Rect.Empty;
             }
 
-            double Top = CorrectDoubleValue(Canvas.GetTop(MainThumb));
-            double Left = CorrectDoubleValue(Canvas.GetLeft(MainThumb));
+            double Top = CorrectDoubleValue(Canvas.GetTop(this));
+            double Left = CorrectDoubleValue(Canvas.GetLeft(this));
 
             return new Rect
             {
                 X = Left,
                 Y = Top,
-                Width = MainThumb.ActualWidth,
-                Height = MainThumb.ActualHeight
+                Width = this.ActualWidth,
+                Height = this.ActualHeight
             };
         }
         protected virtual void SetTargetActualBound(Rect NewBound)
@@ -324,8 +324,10 @@ namespace DeepZoom.Marks.Controls
             {
                 this.Width = NewBound.Width;
                 this.Height = NewBound.Height;
-                Canvas.SetTop(MainThumb, NewBound.Y);
-                Canvas.SetLeft(MainThumb, NewBound.X);
+                Canvas.SetTop(this, NewBound.Y);
+                Canvas.SetLeft(this, NewBound.X);
+                //Canvas.SetTop(MainThumb, NewBound.Y);
+                //Canvas.SetLeft(MainThumb, NewBound.X);
             }
         }
 

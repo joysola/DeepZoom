@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -203,6 +204,20 @@ namespace DeepZoom.Controls
 
         #endregion
 
+
+        public static readonly DependencyProperty ScaleProperty = ZoomableCanvas.ScaleProperty.AddOwner(typeof(MultiScaleImage));
+        public static readonly DependencyProperty OffsetProperty = ZoomableCanvas.OffsetProperty.AddOwner(typeof(MultiScaleImage));
+        public Point Offset
+        {
+            get { return (Point)GetValue(OffsetProperty); }
+            set { SetValue(OffsetProperty, value); }
+        }
+
+        public double Scale
+        {
+            get { return (double)GetValue(ScaleProperty); }
+            set { SetValue(ScaleProperty, value); }
+        }
         #endregion
 
         #region Overriden Input Event Handlers
@@ -250,7 +265,7 @@ namespace DeepZoom.Controls
 
         private void InitializeCanvas()
         {
-            if (Source == null) 
+            if (Source == null)
                 return;
 
             var level = Source.GetLevel(_zoomableCanvas.ActualWidth, _zoomableCanvas.ActualHeight);
@@ -274,6 +289,8 @@ namespace DeepZoom.Controls
             SetAspectRatio(_spatialSource.Extent.Width / _spatialSource.Extent.Height);
 
             _spatialSource.InvalidateSource();
+
+            BindingProperties();
         }
 
         private void ScaleCanvas(double relativeScale, Point center, bool animate = false)
@@ -334,6 +351,14 @@ namespace DeepZoom.Controls
             _levelChangeThrottle.Start();
         }
 
+        private void BindingProperties()
+        {
+            if (_zoomableCanvas != null)
+            {
+                this.SetBinding(OffsetProperty, new Binding(nameof(_zoomableCanvas.Offset)) { Source = _zoomableCanvas });
+                this.SetBinding(ScaleProperty, new Binding(nameof(_zoomableCanvas.Scale)) { Source = _zoomableCanvas });
+            }
+        }
         #endregion
     }
 }

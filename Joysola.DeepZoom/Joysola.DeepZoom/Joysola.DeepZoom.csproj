@@ -1,14 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net462;</TargetFrameworks>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFrameworks>netcoreapp3.1;net462;</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<LangVersion>8.0</LangVersion>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<!--<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<AppDesignerFolder>Properties</AppDesignerFolder>-->
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DeepZoom.Marks\DeepZoom.Marks.csproj" />
-    <ProjectReference Include="..\DeepZoom\DeepZoom.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DeepZoom.Marks\DeepZoom.Marks.csproj" />
+		<ProjectReference Include="..\DeepZoom\DeepZoom.csproj" />
+	</ItemGroup>
 
 </Project>

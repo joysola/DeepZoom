@@ -1,6 +1,7 @@
 ﻿using DeepZoom;
+using System;
 
-namespace Joysola
+namespace Joysola.DeepZoomTest
 {
     public class TestTileSource : MultiScaleTileSource
     {
@@ -16,7 +17,7 @@ namespace Joysola
                 //{
                 //    tileLevel = 16;
                 //}
-                return new System.Uri($"{path}\\{tileLevel}\\{tilePositionX}_{tilePositionY}.jpeg");
+                return new Uri($"{path}\\{tileLevel}\\{tilePositionX}_{tilePositionY}.jpeg");
             }
             //return new Uri(string.Format("http://tah.openstreetmap.org/Tiles/tile/{0}/{1}/{2}.png", zoom, tilePositionX, tilePositionY));
             else

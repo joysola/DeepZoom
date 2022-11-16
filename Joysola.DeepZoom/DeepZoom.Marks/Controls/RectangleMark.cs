@@ -7,27 +7,23 @@ using System.Windows.Controls;
 
 namespace DeepZoom.Marks.Controls
 {
-    public class RectangleMark : ShapeMark
+    public class RectangleMark : DeepZoomMark
     {
-        protected override void SetTargetActualBound(Rect NewBound)
-        {
-            base.SetTargetActualBound(NewBound);
-            //MSIStartPoint = NewBound.TopLeft.CanvasToMsi(Offset, Scale);
-            //MSIEndPoint = NewBound.BottomRight.CanvasToMsi(Offset, Scale);
-        }
+        //protected override void RaisenDragChangingEvent(Rect NewBound)
+        //{
+        //    base.RaisenDragChangingEvent(NewBound);
+        //}
 
+        //protected override void RaisenDragCompletedEvent(Rect NewBound)
+        //{
+        //    base.RaisenDragCompletedEvent(NewBound);
+        //    MSIRect = NewBound.CanvasToMsi(Offset, Scale);
+        //}
 
-        public override void UpdateShape()
-        {
-            base.UpdateShape();
-            var startPoint = this.MsiToCanvas(this.MSIStartPoint);
-            var endPoint = this.MsiToCanvas(this.MSIEndPoint);
-            var x = Math.Min(startPoint.X, endPoint.X);
-            var y = Math.Min(startPoint.Y, endPoint.Y);
-            var width = Math.Abs(startPoint.X - endPoint.X);
-            var height = Math.Abs(startPoint.Y - endPoint.Y);
-            SetTargetActualBound(new Rect { X = x, Y = y, Width = width, Height = height });
-            //UpdateLayout();
-        }
+        //public override void UpdateShape()
+        //{
+        //    base.UpdateShape();
+        //    SetTargetActualBound(this.MsiToCanvas(MSIRect));
+        //}
     }
 }

@@ -12,22 +12,26 @@
         Height="1000"
         Width="1800">
     <Grid>
-        <dz:MultiScaleImage>
-            <dz:MultiScaleImage.Source>
-                <local:TestTileSource />
-            </dz:MultiScaleImage.Source>
-        </dz:MultiScaleImage>
+        
+            <dz:MultiScaleImage x:Name="MSI">
+                <dz:MultiScaleImage.Source>
+                    <local:TestTileSource />
+                </dz:MultiScaleImage.Source>
+            </dz:MultiScaleImage>
+     
 
-        <!--Width="{Binding ElementName=MSI,Path=ActualWidth}"
-                Height="{Binding ElementName=MSI,Path=ActualHeight}"-->
         <Canvas x:Name="can">
             <mark:RectangleMark Style="{StaticResource RectangleMarkStyle}"
+                                Offset="{Binding RelativeSource={RelativeSource AncestorType=dz:MultiScaleImage},Path=Offset}"
+                                Scale="{Binding RelativeSource={RelativeSource AncestorType=dz:MultiScaleImage},Path=Scale}"
                                 Width="30"
                                 Height="30"
                                 BorderBrush="Red"
                                 BorderThickness="1"
                                 CornerWidth="10" />
-            <!--<mark:RectangleMark.MarkTemplate>
+
+        </Canvas>
+        <!--<mark:RectangleMark.MarkTemplate>
                     <ControlTemplate TargetType="{x:Type Thumb}">
                         <Rectangle Margin="0"
                                    x:Name="PART_Rectangle"
@@ -38,7 +42,5 @@
                                    StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness, Mode=OneWay}" />
                     </ControlTemplate>
                 </mark:RectangleMark.MarkTemplate>-->
-
-        </Canvas>
     </Grid>
 </Window>

@@ -1,5 +1,4 @@
-﻿using DeepZoom.Marks.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Joysola.DeepZoom
+namespace Joysola.DeepZoomTest
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,17 +23,7 @@ namespace Joysola.DeepZoom
         public MainWindow()
         {
             InitializeComponent();
-            //var xx = can.Children[0] as RectangleMark;
-            //xx.MSIStartPoint = new Point(517, 342);
-            //xx.MSIEndPoint = new Point(837, 545);
-            //xx.UpdateShape();
-            //can.Loaded += (s, e) =>
-            //{
-            //    xx.Loaded += (x, y) =>
-            //    {
-            //    };
-            //};
-
+            mark.MSIRect = new Rect(new Point(836, 569), new Point(4259, 6039));
         }
     }
 }
